@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 gunicorn = "*"
 Flask = "*"
+"psycopg2" = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

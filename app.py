@@ -1,10 +1,13 @@
+import settings
 from flask import Flask, request, jsonify
-from datetime import datetime
+app = Flask(__name__)
+import os
+
 app = Flask(__name__)
 
 @app.route('/')
 def homepage():
-    return "hi"
+    return "hii"
 
 @app.route('/witness/', methods=["POST"])
 def web_witness():
@@ -16,7 +19,6 @@ def web_witness():
     #TODO: insert into database
     print('Location: ', location)
     print('Description: ', description)
-
     return jsonify(success=True)
 
 
