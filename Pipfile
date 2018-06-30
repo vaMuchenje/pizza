@@ -8,6 +8,8 @@ gunicorn = "*"
 Flask = "*"
 "psycopg2" = "*"
 python-dotenv = "*"
+sqlalchemy = "*"
+flask-sqlalchemy = "*"
 
 [dev-packages]
 
