@@ -10,7 +10,7 @@ def homepage():
     return "hii"
 
 @app.route('/witness/', methods=["POST"])
-def web_witness():
+def witness():
     location = request.json['location']
     description = request.json['description']
 
