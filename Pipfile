@@ -11,6 +11,7 @@ python-dotenv = "*"
 sqlalchemy = "*"
 flask-sqlalchemy = "*"
 googlemaps = "*"
+flask-cors = "*"
 
 [dev-packages]
 
