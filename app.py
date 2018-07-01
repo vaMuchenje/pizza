@@ -83,7 +83,7 @@ def sms_reply():
     print(request.form['Body'])
     body = request.form['Body']
     resp = MessagingResponse()
-    splitted_body = body.split(':')
+    splitted_body = body.split(';')
     if (";" not in body) or (len(splitted_body) != 2):
         resp.message(invalid_input_error)
     else:
