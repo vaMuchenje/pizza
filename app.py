@@ -56,8 +56,8 @@ def add_incident(address, description):
     result = connection.execute(cmd_get_subscribers)
     for subscriber in result:
         try:
-            distance_from_user_to_event = haversine((lat, lon), (result[0], result[1]), miles=True)
-            print("Distance to user " + subscriber[2] + " is " + distance_from_user_to_event)
+            distance_from_user_to_event = haversine((lat, lon), (subscriber[0], subscriber[1]), miles=True)
+            print("Distance to user " + subscriber[2] + " is " + str(distance_from_user_to_event))
             if distance_from_user_to_event < subscriber[3]:
               client.messages \
                   .create(
