@@ -60,7 +60,7 @@ def add_incident(address, description):
         try:
             client.messages \
                 .create(
-                body=request.json['description'] + " at " + request.json['location'],
+                body=description + " at " + address,
                 from_='+12014705763',
                 to=subscriber[2]
             )
@@ -88,6 +88,7 @@ def sms_reply():
         description = body.split(':')[0]
         address = body.split(';')[1]
         try:
+            print('going to add incident')
             add_incident(address, description)
             resp.message('Thank you, we will alert the community')
         except Exception as e:
