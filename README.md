@@ -1,5 +1,13 @@
 This is the backend part of the Whistle app. The frontend is here: https://github.com/IevgenRagulin/wildfire
 
+## Accessing the app:
+You can witness an event here: https://ievgenragulin.github.io/wildfire/witness-form
+
+Or Text to +1 201 470 5763:
+Message format:
+I.C.E raid;Metrotech 2 NYC
+
+
 ## Inspiration
 Around the world, people are communicating through social media and the internet about incidents happening around their area. Incidents, such as ICE raids, which is information that is important to advocates and immigrants themselves. But those who need this information the most may not be able to access it. Knowledge is power and those who are unable to afford smartphones or access these services are lacking that power. Immigrants, who are in constant fear of being taken away from the homes and loved ones, are an example of those who lack this power. To give the power back to these people, we hoped to create an application which is easy to access and is capable of putting the minds of those who use it at ease.
 
