@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        /* Set the size of the div element that contains the map */
+        #map {
+            height: 600px; /* The height is 400 pixels */
+            width: 60%; /* The width is the width of the web page */
+        }
+    </style>
+    <title>Whistle Mapp</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+<h3 style='color: #ccc;font-size: 30px;'>I.C.E. raids locations</h3>
+<br/>
+<div class="message_holder"></div>
+
+<div id="map"></div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+    // Initialize and add the map
+    function initMap() {
+        var metro_tech = {lat: 40.693364, lng: -73.9857147};
+        var map = new google.maps.Map(
+            document.getElementById('map'), {zoom: 7, center: metro_tech});
+        var marker;
+        {% for incident_lat in incident_lats %}
+            var lat = {{ incident_lats[loop.index0] }}
+            var lon = {{ incident_lons[loop.index0] }}
+            var position = { lat: lat, lng: lon }
+            var label = '{{ incident_descriptions[loop.index0] }}'
+            marker = new google.maps.Marker({position: position, map: map, label: label });
+            //var marker2 = new google.maps.Marker({position: metro_tech, map: map});
+        {% endfor %}
+    }
+</script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAN_7R660HphAES8oxniHvHa4ymuCz32Jc&callback=initMap">
+    </script>
+</body>
+</html>
