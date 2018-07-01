@@ -71,13 +71,10 @@ def witness():
 
 @app.route('/sms', methods=['GET', 'POST'])
 def sms_reply():
-    print(request.json())
+    print(request.form['Body'])
     resp = MessagingResponse()
-
-    if request.form['NumMedia'] != '0':
-        resp.message("Thank you for the tip!")
-
-        return str(resp);
+    resp.message("Thank you for the tip!")
+    return str(resp)
 
 @app.route('/map', methods=['GET'])
 def map():
