@@ -23,6 +23,7 @@ engine = create_engine('postgres://hqbydtfyklgvdi:e84dcb01868fc31a6c8ccb2926411b
 connection = engine.connect()
 
 invalid_input_error = "Welcome to Whistle. Respond if you see an unsafe incident. Please use this format: ICE raid description; 285 DeKalb Ave subway"
+invalid_address_error = "Welcome to Whistle. Please give more specific address. Please use this format: ICE raid description; 285 DeKalb Ave subway"
 message = client.messages \
           .create(
               body = invalid_input_error,
@@ -47,7 +48,9 @@ def witness_get():
 
 def add_incident(address, description):
     geocode_result = gmaps.geocode(address)
-    print(geocode_result[0]['geometry']['location'])
+    print(geocode_result)
+    if len(geocode_result) == 0:
+        return False
     lat = geocode_result[0]['geometry']['location']['lat']
     lon = geocode_result[0]['geometry']['location']['lng']
     cmd = 'INSERT INTO incidents (address, description, incident_lat, incident_lon) VALUES (:address, :description, :lat, :lon)'
@@ -93,8 +96,11 @@ def sms_reply():
         print("address" + address)
         try:
             print('going to add incident')
-            add_incident(address, description)
-            resp.message('Thank you, we will alert the community')
+            success = add_incident(address, description)
+            if success:
+                resp.message('Thank you, we will alert the community')
+            else:
+                resp.message(invalid_address_error)
         except Exception as e:
             resp.message(invalid_input_error)
     return str(resp)
