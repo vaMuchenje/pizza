@@ -21,9 +21,10 @@ from flask import render_template
 engine = create_engine('postgres://hqbydtfyklgvdi:e84dcb01868fc31a6c8ccb2926411bf4532a4b4e141ff96637365c9cbce97544@ec2-54-83-15-95.compute-1.amazonaws.com:5432/de97nb9dek9b26')
 connection = engine.connect()
 
-invalid_input_error = "This is the Whistle messaging service. Send a picture if you have of any suspected "\
+invalid_input_error = "This is the Whistle messaging service. Send us SMS if you have of any suspected "\
                "ICE related in your neighborhood. Please include the Location and Description in the same message."\
-                "Make sure to add a semicolon (;) after the location and the description."
+                "Make sure you separate the location and the description with ;, like this: I.C.E agents"\
+                " are interogating people; Metro Tech 2, NYC"
 message = client.messages \
           .create(
               body = invalid_input_error,
@@ -83,8 +84,8 @@ def sms_reply():
     if (";" not in body) or (len(body.split(';')) != 2):
         resp.message(invalid_input_error)
     else:
-        address = body.split(';')[0]
-        description = body.split(':')[1]
+        description = body.split(':')[0]
+        address = body.split(';')[1]
         try:
             add_incident(address, description)
             resp.message('Thank you, we will alert the community')
