@@ -23,7 +23,7 @@ def witness_get():
 
 @app.route('/witness/', methods=["POST"])
 def witness():
-    puts('hi')
+    print('hi')
     engine = create_engine('postgres://hqbydtfyklgvdi:e84dcb01868fc31a6c8ccb2926411bf4532a4b4e141ff96637365c9cbce97544@ec2-54-83-15-95.compute-1.amazonaws.com:5432/de97nb9dek9b26')
     connection = engine.connect()
     cmd = 'INSERT INTO incidents (address, description, incident_lat, incident_lon) VALUES (:address, :description, :lat, :lon)'
