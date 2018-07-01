@@ -61,7 +61,7 @@ def add_incident(address, description):
             if distance_from_user_to_event < subscriber[3]:
               client.messages \
                   .create(
-                  body=description + " at " + address + ". Click to find out more: https://bit.ly/2KE98GC",
+                  body="Whistle alert: "+description + " at " + address + ". Click to find out more: https://bit.ly/2KE98GC",
                   from_='+12014705763',
                   to=subscriber[2]
               )
