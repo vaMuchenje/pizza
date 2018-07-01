@@ -83,12 +83,12 @@ def sms_reply():
     print(request.form['Body'])
     body = request.form['Body']
     resp = MessagingResponse()
-    splitted = body.split(':')
-    if (";" not in body) or (len(splitted) != 2):
+    splitted_body = body.split(':')
+    if (";" not in body) or (len(splitted_body) != 2):
         resp.message(invalid_input_error)
     else:
-        description = splitted[0]
-        address = splitted[1]
+        description = splitted_body[0]
+        address = splitted_body[1]
         print("desc" + description)
         print("address" + address)
         try:
