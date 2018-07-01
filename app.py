@@ -60,7 +60,7 @@ def add_incident(address, description):
         try:
             client.messages \
                 .create(
-                body=description + " at " + address +". See more information here: https://bit.ly/2MAGHtM",
+                body=description + " at " + address +". Click to find out more: https://bit.ly/2MAGHtM",
                 from_='+12014705763',
                 to=subscriber[2]
             )
