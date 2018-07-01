@@ -23,7 +23,7 @@ connection = engine.connect()
 
 invalid_input_error = "This is the Whistle messaging service. Send us SMS if you have of any suspected "\
                "ICE related in your neighborhood. Please include the Address and Description in the same message."\
-                "Make sure you separate the address and the description with ;, like this: I.C.E agents"\
+                "Make sure you separate the address and the description with ";". Example: I.C.E agents"\
                 " are interogating people; 285 Fulton St, New York, NYC"
 message = client.messages \
           .create(
@@ -67,6 +67,7 @@ def add_incident(address, description):
         except Exception as e:
             print(e.__doc__)
             print(e)
+            return False
     return True
 
 @app.route('/witness/', methods=["POST"])
