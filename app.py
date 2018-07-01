@@ -53,10 +53,25 @@ def witness():
     lat = geocode_result[0]['geometry']['location']['lat']
     lon = geocode_result[0]['geometry']['location']['lng']
     connection.execute(text(cmd), address=location, description=request.json['description'], lat=lat, lon=lon)
+
+    cmd_get_subscribers = 'SELECT area_lat, area_lon, phone_number FROM subscribers'
+    result = connection.execute(cmd_get_subscribers)
+    for subscriber in result:
+        try:
+            client.messages \
+                .create(
+                body=request.json['description'] + " at " + request.json['location'],
+                from_='+12014705763',
+                to=subscriber[2]
+            )
+        except Exception as e:
+            print(e.__doc__)
+            print(e)
     return jsonify(success=True)
 
 @app.route('/sms', methods=['GET', 'POST'])
 def sms_reply():
+    print(request.json())
     resp = MessagingResponse()
 
     if request.form['NumMedia'] != '0':
