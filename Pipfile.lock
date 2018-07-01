@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "fc310a6f8e21395d81fab354092a1ef1c6ad061ecd25b92b70cbced24cc59f50"
+            "sha256": "c5ebcf8863efe6efb24b4f0187ffa014acf56088000157fb3faeb1f662575fdb"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -103,6 +103,14 @@
             ],
             "version": "==1.0"
         },
+        "mpu": {
+            "hashes": [
+                "sha256:4b37e58752f17091593fee6ddebafda7aa22794db1c07ae07ab3ebf083085f4d",
+                "sha256:971b23af32518a06964f2c8eb8dc5f29879f90ceb5104fd28bbd8d4e597ead75"
+            ],
+            "index": "pypi",
+            "version": "==0.7.0"
+        },
         "psycopg2": {
             "hashes": [
                 "sha256:0f4c784e1b5a320efb434c66a50b8dd7e30a7dc047e8f45c0a8d2694bfe72781",
@@ -200,7 +208,6 @@
                 "sha256:a68ac5e15e76e7e5dd2b8f94007233e01effe3e50e8daddf69acfd81cb686baf",
                 "sha256:b5725a0bd4ba422ab0e66e89e030c806576753ea3ee08554382c14e685d117b5"
             ],
-            "markers": "python_version >= '2.6' and python_version != '3.1.*' and python_version != '3.0.*' and python_version < '4' and python_version != '3.2.*' and python_version != '3.3.*'",
             "version": "==1.23"
         },
         "werkzeug": {

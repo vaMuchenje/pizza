@@ -13,6 +13,7 @@ from twilio.rest import TwilioRestClient
 from twilio.twiml.messaging_response import MessagingResponse
 from twilio import twiml
 from twilio.rest import Client
+from haversine import haversine
 account_sid = 'AC0d2d5b287cb88cb9e20c4d21c599d38a'
 auth_token = '9e85d47b90e6ae03275e8447e611f1ee'
 client = Client(account_sid, auth_token)
@@ -51,16 +52,19 @@ def add_incident(address, description):
     lon = geocode_result[0]['geometry']['location']['lng']
     cmd = 'INSERT INTO incidents (address, description, incident_lat, incident_lon) VALUES (:address, :description, :lat, :lon)'
     connection.execute(text(cmd), address=address, description=description, lat=lat, lon=lon)
-    cmd_get_subscribers = 'SELECT area_lat, area_lon, phone_number FROM subscribers'
+    cmd_get_subscribers = 'SELECT area_lat, area_lon, phone_number, radius FROM subscribers'
     result = connection.execute(cmd_get_subscribers)
     for subscriber in result:
         try:
-            client.messages \
-                .create(
-                body=description + " at " + address +". Click to find out more: https://bit.ly/2KE98GC",
-                from_='+12014705763',
-                to=subscriber[2]
-            )
+            distance_from_user_to_event = haversine((lat, lon), (result[0], result[1]), miles=True)
+            print("Distance to user " + subscriber[2] + " is " + distance_from_user_to_event)
+            if distance_from_user_to_event < radius:
+              client.messages \
+                  .create(
+                  body=description + " at " + address +". Click to find out more: https://bit.ly/2KE98GC",
+                  from_='+12014705763',
+                  to=subscriber[2]
+              )
         except Exception as e:
             print(e.__doc__)
             print(e)

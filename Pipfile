@@ -13,6 +13,7 @@ flask-sqlalchemy = "*"
 googlemaps = "*"
 flask-cors = "*"
 twilio = "*"
+haversine = "*"
 
 [dev-packages]
 
