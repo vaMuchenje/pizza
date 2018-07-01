@@ -22,9 +22,9 @@ engine = create_engine('postgres://hqbydtfyklgvdi:e84dcb01868fc31a6c8ccb2926411b
 connection = engine.connect()
 
 invalid_input_error = "This is the Whistle messaging service. Send us SMS if you have of any suspected "\
-               "ICE related in your neighborhood. Please include the Location and Description in the same message."\
-                "Make sure you separate the location and the description with ;, like this: I.C.E agents"\
-                " are interogating people; Metro Tech 2, NYC"
+               "ICE related in your neighborhood. Please include the Address and Description in the same message."\
+                "Make sure you separate the address and the description with ;, like this: I.C.E agents"\
+                " are interogating people; 285 Fulton St, New York, NYC"
 message = client.messages \
           .create(
               body = invalid_input_error,
