@@ -21,16 +21,18 @@ from flask import render_template
 engine = create_engine('postgres://hqbydtfyklgvdi:e84dcb01868fc31a6c8ccb2926411bf4532a4b4e141ff96637365c9cbce97544@ec2-54-83-15-95.compute-1.amazonaws.com:5432/de97nb9dek9b26')
 connection = engine.connect()
 
+invalid_input_error = "This is the Whistle messaging service. Send a picture if you have of any suspected "\
+               "ICE related in your neighborhood. Please include the Location and Description in the same message."\
+                "Make sure to add a semicolon (;) after the location and the description."
 message = client.messages \
           .create(
-              body = "This is the Whistle messaging service. Send a picture if you have of any suspected "\
-               "ICE related in your neighborhood. Please include the Location and Description in the same message."\
-                "Make sure to add a semicolon (;) after the location and the description.",
+              body = invalid_input_error,
               from_='+12014705763',
               to='+19178152736'
               )
 
 print(message.sid);
+gmaps = googlemaps.Client(key='AIzaSyAN_7R660HphAES8oxniHvHa4ymuCz32Jc')
 
 @app.route('/')
 def homepage():
@@ -43,17 +45,14 @@ def witness_get():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-@app.route('/witness/', methods=["POST"])
-def witness():
-    cmd = 'INSERT INTO incidents (address, description, incident_lat, incident_lon) VALUES (:address, :description, :lat, :lon)'
-    location = request.json['location']
-    gmaps = googlemaps.Client(key='AIzaSyAN_7R660HphAES8oxniHvHa4ymuCz32Jc')
-    geocode_result = gmaps.geocode(location)
+
+def add_incident(address, description):
+    geocode_result = gmaps.geocode(address)
     print(geocode_result[0]['geometry']['location'])
     lat = geocode_result[0]['geometry']['location']['lat']
     lon = geocode_result[0]['geometry']['location']['lng']
-    connection.execute(text(cmd), address=location, description=request.json['description'], lat=lat, lon=lon)
-
+    cmd = 'INSERT INTO incidents (address, description, incident_lat, incident_lon) VALUES (:address, :description, :lat, :lon)'
+    connection.execute(text(cmd), address=address, description=description, lat=lat, lon=lon)
     cmd_get_subscribers = 'SELECT area_lat, area_lon, phone_number FROM subscribers'
     result = connection.execute(cmd_get_subscribers)
     for subscriber in result:
@@ -67,13 +66,30 @@ def witness():
         except Exception as e:
             print(e.__doc__)
             print(e)
+    return True
+
+@app.route('/witness/', methods=["POST"])
+def witness():
+    location = request.json['location']
+    description = request.json['description']
+    add_incident(location, description)
     return jsonify(success=True)
 
 @app.route('/sms', methods=['GET', 'POST'])
 def sms_reply():
     print(request.form['Body'])
+    body = request.form['Body']
     resp = MessagingResponse()
-    resp.message("Thank you for the tip!")
+    if (";" not in body) or (len(body.split(';')) != 2):
+        resp.message(invalid_input_error)
+    else:
+        address = body.split(';')[0]
+        description = body.split(':')[1]
+        try:
+            add_incident(address, description)
+            resp.message('Thank you, we will alert the community')
+        except Exception as e:
+            resp.message(invalid_input_error)
     return str(resp)
 
 @app.route('/map', methods=['GET'])
