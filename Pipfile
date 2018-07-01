@@ -12,6 +12,7 @@ sqlalchemy = "*"
 flask-sqlalchemy = "*"
 googlemaps = "*"
 flask-cors = "*"
+twilio = "*"
 
 [dev-packages]
 
