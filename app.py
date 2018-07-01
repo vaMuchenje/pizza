@@ -58,10 +58,10 @@ def add_incident(address, description):
         try:
             distance_from_user_to_event = haversine((lat, lon), (result[0], result[1]), miles=True)
             print("Distance to user " + subscriber[2] + " is " + distance_from_user_to_event)
-            if distance_from_user_to_event < radius:
+            if distance_from_user_to_event < subscriber[3]:
               client.messages \
                   .create(
-                  body=description + " at " + address +". Click to find out more: https://bit.ly/2KE98GC",
+                  body=description + " at " + address + ". Click to find out more: https://bit.ly/2KE98GC",
                   from_='+12014705763',
                   to=subscriber[2]
               )
