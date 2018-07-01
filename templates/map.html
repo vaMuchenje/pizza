@@ -27,15 +27,14 @@
     function initMap() {
         var metro_tech = {lat: 40.693364, lng: -73.9857147};
         var map = new google.maps.Map(
-            document.getElementById('map'), {zoom: 7, center: metro_tech});
+            document.getElementById('map'), {zoom: 12, center: metro_tech});
         var marker;
         {% for incident_lat in incident_lats %}
             var lat = {{ incident_lats[loop.index0] }}
             var lon = {{ incident_lons[loop.index0] }}
             var position = { lat: lat, lng: lon }
             var label = '{{ incident_descriptions[loop.index0] }}'
-            marker = new google.maps.Marker({position: position, map: map, label: label });
-            //var marker2 = new google.maps.Marker({position: metro_tech, map: map});
+            marker = new google.maps.Marker({position: position, map: map, label: { text: label, fontSize: "20px", fontWeight: "bold"} });
         {% endfor %}
     }
 </script>
