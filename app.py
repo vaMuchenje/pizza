@@ -9,10 +9,26 @@ from sqlalchemy import inspect
 from sqlalchemy.sql import text
 import googlemaps
 from datetime import datetime
-from flask import render_template
-
+account_sid = 'AC0d2d5b287cb88cb9e20c4d21c599d38a'
+auth_token = '9e85d47b90e6ae03275e8447e611f1ee'
+client = Client(account_sid, auth_token)
+from twilio.rest import TwilioRestClient
+from twilio.twiml.messaging_response import MessagingResponse
+from twilio import twiml
+from twilio.rest import Client
 engine = create_engine('postgres://hqbydtfyklgvdi:e84dcb01868fc31a6c8ccb2926411bf4532a4b4e141ff96637365c9cbce97544@ec2-54-83-15-95.compute-1.amazonaws.com:5432/de97nb9dek9b26')
 connection = engine.connect()
+
+message = client.messages \
+          .create(
+              body = "This is the Whistle messaging service. Send a picture if you have of any suspected "\
+               "ICE related in your neighborhood. Please include the Location and Description in the same message."\
+                "Make sure to add a semicolon (;) after the location and the description.",
+              from_='+12014705763',
+              to='+19178152736'
+              )
+
+print(message.sid);
 
 @app.route('/')
 def homepage():
@@ -37,6 +53,15 @@ def witness():
     connection.execute(text(cmd), address=location, description=request.json['description'], lat=lat, lon=lon)
     return jsonify(success=True)
 
+@app.route('/sms', methods=['GET', 'POST'])
+def sms_reply():
+    resp = MessagingResponse()
+
+    if request.form['NumMedia'] != '0':
+        resp.message("Thank you for the tip!")
+
+        return str(resp);
+
 @app.route('/map', methods=['GET'])
 def map():
     incident_id = request.args.get('incident_id', None)
@@ -56,6 +81,7 @@ def map():
         return render_template('map.html', incident_id=incident_id, incident_addresses=incident_addresses, incident_descriptions=incident_descriptions, incident_lats=incident_lats, incident_lons=incident_lons)
     else:
         return render_template('map.html', incident_addresses=incident_addresses, incident_descriptions=incident_descriptions, incident_lats=incident_lats, incident_lons=incident_lons)
+
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=True)
