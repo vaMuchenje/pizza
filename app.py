@@ -83,11 +83,14 @@ def sms_reply():
     print(request.form['Body'])
     body = request.form['Body']
     resp = MessagingResponse()
-    if (";" not in body) or (len(body.split(';')) != 2):
+    splitted = body.split(':')
+    if (";" not in body) or (len(splitted) != 2):
         resp.message(invalid_input_error)
     else:
-        description = body.split(':')[0]
-        address = body.split(';')[1]
+        description = splitted[0]
+        address = splitted[1]
+        print("desc" + description)
+        print("address" + address)
         try:
             print('going to add incident')
             add_incident(address, description)
