@@ -21,10 +21,10 @@ from flask import render_template
 engine = create_engine('postgres://hqbydtfyklgvdi:e84dcb01868fc31a6c8ccb2926411bf4532a4b4e141ff96637365c9cbce97544@ec2-54-83-15-95.compute-1.amazonaws.com:5432/de97nb9dek9b26')
 connection = engine.connect()
 
-invalid_input_error = "This is the Whistle messaging service. Send us SMS if you have of any suspected "\
-               "ICE related in your neighborhood. Please include the Address and Description in the same message."\
-                "Make sure you separate the address and the description with ";". Example: I.C.E agents"\
-                " are interogating people; 285 Fulton St, New York, NYC"
+invalid_input_error = "Welcome to Whistle. "\ 
+                      "Respond if you see an unsafe incident."\
+                      "Please use this format:"\
+                      "ICE raid description; 285 DeKalb Ave subway"
 message = client.messages \
           .create(
               body = invalid_input_error,
