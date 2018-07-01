@@ -21,10 +21,7 @@ from flask import render_template
 engine = create_engine('postgres://hqbydtfyklgvdi:e84dcb01868fc31a6c8ccb2926411bf4532a4b4e141ff96637365c9cbce97544@ec2-54-83-15-95.compute-1.amazonaws.com:5432/de97nb9dek9b26')
 connection = engine.connect()
 
-invalid_input_error = "Welcome to Whistle. "\ 
-                      "Respond if you see an unsafe incident."\
-                      "Please use this format:"\
-                      "ICE raid description; 285 DeKalb Ave subway"
+invalid_input_error = "Welcome to Whistle. Respond if you see an unsafe incident. Please use this format: ICE raid description; 285 DeKalb Ave subway"
 message = client.messages \
           .create(
               body = invalid_input_error,
