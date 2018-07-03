@@ -14,12 +14,12 @@ from twilio.twiml.messaging_response import MessagingResponse
 from twilio import twiml
 from twilio.rest import Client
 from haversine import haversine
-account_sid = 'AC0d2d5b287cb88cb9e20c4d21c599d38a'
-auth_token = '9e85d47b90e6ae03275e8447e611f1ee'
+account_sid = 'twilio_sid_goes_here'
+auth_token = 'twilio_token_goes_here'
 client = Client(account_sid, auth_token)
 from flask import render_template
 
-engine = create_engine('postgres://hqbydtfyklgvdi:e84dcb01868fc31a6c8ccb2926411bf4532a4b4e141ff96637365c9cbce97544@ec2-54-83-15-95.compute-1.amazonaws.com:5432/de97nb9dek9b26')
+engine = create_engine('postgres_url_goes_here')
 connection = engine.connect()
 
 invalid_input_error = "Welcome to Whistle. Respond if you see an unsafe incident. Please use this format: ICE raid description; 285 DeKalb Ave subway"
@@ -32,7 +32,7 @@ message = client.messages \
               )
 
 print(message.sid);
-gmaps = googlemaps.Client(key='AIzaSyAN_7R660HphAES8oxniHvHa4ymuCz32Jc')
+gmaps = googlemaps.Client(key='google_maps_key_goes_here')
 
 @app.route('/')
 def homepage():
